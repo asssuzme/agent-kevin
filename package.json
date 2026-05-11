@@ -1,0 +1,20 @@
+{
+  "name": "agent-kevin",
+  "version": "0.2.1",
+  "description": "Agent Kevin — multi-agent security audit tool. Paste a URL, parallel OpenAI agents audit it via OWASP ASVS/WSTG.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "doctor": "node scripts/doctor.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "openai": "^4.65.0"
+  }
+}

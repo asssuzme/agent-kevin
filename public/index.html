@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent Kevin — Security Audit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo-dot"></span>
+      <span class="brand-name">Agent Kevin</span>
+      <span class="brand-meta">Security audit · v2.1</span>
+    </div>
+    <div class="topbar-status">
+      <span class="status-pill" id="status-pill">
+        <span class="status-dot" id="live-dot"></span>
+        <span id="live-label">Idle</span>
+      </span>
+    </div>
+  </header>
+
+  <main class="page">
+    <!-- Target form (full width) -->
+    <section class="target-bar">
+      <form id="scan-form" class="form-row">
+        <div class="form-field">
+          <label for="target-url" class="field-label">Target URL</label>
+          <input
+            type="url"
+            id="target-url"
+            placeholder="https://your-deployed-project.com"
+            required
+            autocomplete="off"
+            autofocus
+          />
+        </div>
+        <button type="submit" id="scan-btn" class="btn-primary">
+          <span class="btn-label">Initiate scan</span>
+          <span class="btn-icon" aria-hidden="true">→</span>
+        </button>
+      </form>
+      <div class="form-foot">
+        <label class="toggle">
+          <input type="checkbox" id="try-register" />
+          <span class="toggle-switch" aria-hidden="true"></span>
+          <span class="toggle-label">Register a test account &amp; audit authenticated routes</span>
+        </label>
+        <span class="form-note">Only audit applications you own or are authorized to test.</span>
+      </div>
+    </section>
+
+    <!-- Two-column workspace -->
+    <section class="workspace" id="status-section" hidden>
+      <!-- Left column: agents -->
+      <div class="col col-agents">
+        <div class="col-head">
+          <span class="col-title">Agents</span>
+          <span class="col-meta" id="agents-meta">11 total</span>
+        </div>
+
+        <div class="phase-rail">
+          <div class="phase" data-phase="recon"><span class="num">1</span><span class="ph-name">Recon</span></div>
+          <div class="phase" data-phase="specialists"><span class="num">2</span><span class="ph-name">Specialists</span></div>
+          <div class="phase" data-phase="stack_specialists"><span class="num">3</span><span class="ph-name">Stack</span></div>
+          <div class="phase" data-phase="reflection"><span class="num">4</span><span class="ph-name">Reflection</span></div>
+          <div class="phase" data-phase="aggregating"><span class="num">5</span><span class="ph-name">Aggregate</span></div>
+          <div class="phase" data-phase="done"><span class="num">6</span><span class="ph-name">Done</span></div>
+        </div>
+
+        <div class="agents-grid" id="agents-grid"></div>
+      </div>
+
+      <!-- Right column: stats sidebar -->
+      <aside class="col col-stats">
+        <div class="stat-block">
+          <div class="stat-label">Cost</div>
+          <div class="stat-value" id="cost-val">$0.0000</div>
+          <div class="stat-sub" id="cost-sub">0 reasoning tokens</div>
+        </div>
+
+        <div class="stat-block">
+          <div class="stat-label">Findings</div>
+          <div class="findings-row">
+            <div class="finding-chip critical">
+              <span class="chip-count" id="ct-critical">0</span>
+              <span class="chip-label">critical</span>
+            </div>
+            <div class="finding-chip high">
+              <span class="chip-count" id="ct-high">0</span>
+              <span class="chip-label">high</span>
+            </div>
+            <div class="finding-chip medium">
+              <span class="chip-count" id="ct-medium">0</span>
+              <span class="chip-label">medium</span>
+            </div>
+            <div class="finding-chip low">
+              <span class="chip-count" id="ct-low">0</span>
+              <span class="chip-label">low</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-block">
+          <div class="stat-label">Target surface</div>
+          <div class="surface-rows">
+            <div class="surface-row"><span class="sr-key">Endpoints</span><span class="sr-val" id="g-ep-count">0</span></div>
+            <div class="surface-row"><span class="sr-key">Secrets</span><span class="sr-val" id="g-sec-count">0</span></div>
+            <div class="surface-row"><span class="sr-key">Stack</span><span class="sr-val truncate" id="g-stack">unknown</span></div>
+            <div class="surface-row"><span class="sr-key">Auth</span><span class="sr-val" id="g-auth">not logged in</span></div>
+          </div>
+
+          <details class="surface-detail">
+            <summary>Endpoint inventory</summary>
+            <ul class="sc-list" id="g-endpoints"></ul>
+          </details>
+          <details class="surface-detail">
+            <summary>Extracted keys</summary>
+            <ul class="sc-list" id="g-secrets"></ul>
+          </details>
+        </div>
+
+        <div class="stat-block live-feed">
+          <div class="stat-label">
+            <span>Activity feed</span>
+            <span class="feed-count" id="feed-count">0</span>
+          </div>
+          <ol class="feed-list" id="feed-list"></ol>
+        </div>
+      </aside>
+    </section>
+
+    <section class="report" id="report-section" hidden>
+      <div class="col-head">
+        <span class="col-title">Report</span>
+        <div class="report-actions">
+          <button id="copy-btn" class="btn-ghost">Copy</button>
+          <a id="download-link" href="#" download class="btn-ghost">Download .md</a>
+        </div>
+      </div>
+      <div class="report-card">
+        <pre id="report-md"></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footing">
+    <span>Agent Kevin v2.1 · o3 + gpt-5.4 · OpenAI Responses API</span>
+    <span class="dim">Authorized internal security review.</span>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
