@@ -9,6 +9,10 @@ const PORT = Number(process.env.PORT || 3000);
 
 const app = express();
 
+// Health check MUST be registered before the auth gate so platform probes
+// (App Runner, k8s liveness, etc.) don't get 401-blocked.
+app.get('/healthz', (req, res) => res.json({ ok: true, service: 'agent-kevin', version: '2.1' }));
+
 // Optional basic-auth gate. Enabled only if BOTH env vars set.
 // Useful for any internet-exposed deployment.
 if (process.env.ACCESS_USER && process.env.ACCESS_PASSWORD) {
@@ -23,8 +27,6 @@ if (process.env.ACCESS_USER && process.env.ACCESS_PASSWORD) {
 
 app.use(express.json({ limit: '1mb' }));
 app.use(express.static(join(__dirname, '..', 'public')));
-
-app.get('/healthz', (req, res) => res.json({ ok: true, service: 'agent-kevin', version: '2.1' }));
 
 app.post('/api/scan', (req, res) => {
   const { url, tryRegister } = req.body || {};
