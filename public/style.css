@@ -143,7 +143,41 @@ body {
   background: var(--bg-1);
   border: 1px solid var(--border);
   border-radius: var(--r-lg);
-  padding: 22px;
+  padding: 28px 28px 22px;
+}
+.target-pitch {
+  margin-bottom: 22px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--border);
+}
+.pitch-headline {
+  font-family: var(--sans);
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.pitch-headline em {
+  font-style: normal;
+  color: var(--accent);
+  position: relative;
+  white-space: nowrap;
+}
+.pitch-headline em::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -2px;
+  height: 2px;
+  background: var(--accent);
+  opacity: 0.35;
+}
+.pitch-sub {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--ink-dim);
+  max-width: 64ch;
+  line-height: 1.55;
 }
 .form-row {
   display: grid;

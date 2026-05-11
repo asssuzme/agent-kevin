@@ -29,20 +29,24 @@
   <main class="page">
     <!-- Target form (full width) -->
     <section class="target-bar">
+      <div class="target-pitch">
+        <h2 class="pitch-headline">Drop a link to any website you want to <em>hack</em>.</h2>
+        <p class="pitch-sub">Preferably a vibecoded project. Kevin fires eleven agents at it in parallel and reports what's exposed — SQL, XSS, SSRF, auth bypass, leaked keys, you name it.</p>
+      </div>
       <form id="scan-form" class="form-row">
         <div class="form-field">
-          <label for="target-url" class="field-label">Target URL</label>
+          <label for="target-url" class="field-label">URL</label>
           <input
             type="url"
             id="target-url"
-            placeholder="https://your-deployed-project.com"
+            placeholder="https://that-thing-you-shipped-last-night.vercel.app"
             required
             autocomplete="off"
             autofocus
           />
         </div>
         <button type="submit" id="scan-btn" class="btn-primary">
-          <span class="btn-label">Initiate scan</span>
+          <span class="btn-label">Send Kevin</span>
           <span class="btn-icon" aria-hidden="true">→</span>
         </button>
       </form>
@@ -50,9 +54,9 @@
         <label class="toggle">
           <input type="checkbox" id="try-register" />
           <span class="toggle-switch" aria-hidden="true"></span>
-          <span class="toggle-label">Register a test account &amp; audit authenticated routes</span>
+          <span class="toggle-label">Let Kevin register an account &amp; poke around the authenticated routes too</span>
         </label>
-        <span class="form-note">Only audit applications you own or are authorized to test.</span>
+        <span class="form-note">Scan your own stuff. Scanning other people's apps without permission is illegal.</span>
       </div>
     </section>
 
