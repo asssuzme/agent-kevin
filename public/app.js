@@ -335,6 +335,10 @@ function streamEvents(scanId) {
         scanBtn.disabled = false;
         scanBtnLabel.textContent = 'New scan';
         setIdle('Complete');
+        // Scroll down to the report once it's painted
+        requestAnimationFrame(() => {
+          reportSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
         break;
 
       case 'error':
